@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Assistance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        #symptomSection, #result, #loginSection {
+            display: none;
+        }
+        #registrationSection {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Registration Section -->
+    <div class="container" id="registrationSection">
+        <h2>Register</h2>
+        <input type="text" id="regUsername" placeholder="Enter username" required>
+        <input type="password" id="regPassword" placeholder="Enter password" required>
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="javascript:void(0);" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <!-- Login Section -->
+    <div class="container" id="loginSection">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter username" required>
+        <input type="password" id="password" placeholder="Enter password" required>
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="javascript:void(0);" onclick="showRegistration()">Register</a></p>
+    </div>
+
+    <!-- Symptom Input Section -->
+    <div class="container" id="symptomSection">
+        <h2>Enter Your Symptoms</h2>
+        <input type="text" id="symptoms" placeholder="E.g., Fever, Cough, Headache">
+        <button onclick="analyzeSymptoms()">Check</button>
+    </div>
+
+    <!-- Result Section -->
+    <div class="container" id="result"></div>
+
+    <script>
+        let users = {}; // This is a simple in-memory database for users
+
+        function showRegistration() {
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("registrationSection").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("registrationSection").style.display = "none";
+            document.getElementById("loginSection").style.display = "block";
+        }
+
+        function register() {
+            let username = document.getElementById("regUsername").value;
+            let password = document.getElementById("regPassword").value;
+
+            // Check if the user already exists
+            if (users[username]) {
+                alert("User already exists. Please choose a different username.");
+            } else {
+                // Save the user to the in-memory database
+                users[username] = password;
+                alert("Registration successful!");
+                showLogin(); // Redirect to login page
+            }
+        }
+
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            // Check if the user exists and the password matches
+            if (users[username] === password) {
+                alert("Login successful!");
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("symptomSection").style.display = "block";
+            } else {
+                alert("Invalid username or password.");
+            }
+        }
+
+        function analyzeSymptoms() {
+            let inputSymptoms = document.getElementById("symptoms").value;
+            let resultDiv = document.getElementById("result");
+            resultDiv.style.display = "block";
+            resultDiv.innerHTML = `<p>You entered symptoms: ${inputSymptoms}</p>`;
+
+            // Here, you can add your symptom analysis logic
+        }
+    </script>
+
+</body>
+</html>
